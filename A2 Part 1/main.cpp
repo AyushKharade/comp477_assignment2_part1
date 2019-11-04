@@ -45,6 +45,7 @@ double dt;
 bool generated;
 bool morphed;
 
+float morphSphereRadius=4;
 
 
 
@@ -194,6 +195,96 @@ void generatePoints(int distance)
 }
 
 
+void morph()
+{
+	/*
+	if x,y,z is a point on the cube, then calculate
+	d = sqrt(x^2 + y^2 + z^2)
+
+	theta = arcos(z/d)
+	phi=arctan (y/x)
+
+	then x,y,z are morphed to their new positions:
+	x1= r * sin theta * cos 5
+	y1=r * sin theta * sin phi
+	z1= r * cos theta
+	
+	*/
+
+	//calculate d, thetha & phi
+	float x, y, z;
+	
+	/*
+	Point *temp = FaceFront[14];
+
+	x = (temp[0])[0];
+	y = (temp[0])[1];
+	z = (temp[0])[2];
+
+	cout<<"reading points; X: "<<x<<", Y:"<<y<<", Z: "<<z<<endl;
+
+	double d = sqrt((pow(x,2)+pow(y,2)+pow(z,2)));
+	cout<<"d/z = "<<(d/z)/100<<endl;
+	double theta = acos((d/z)/100.0);
+	
+	double phi = atan(y / x);
+
+	cout<<"Values calculated:"<<endl;
+	cout<<" d: "<<d<<endl;
+	cout<<" theta: "<<theta<<endl;
+	cout<<" phi: "<<phi<<endl;
+	*/
+
+	// go through all 6 arrays, and compute new position. overwrite positions
+	// face front
+	for (int i = 0; i < 25; i++)
+	{
+		// save temp copy, overwrite.
+		float x, y, z;
+		double x1, y1, z1;
+		Point *temp = FaceFront[i];
+		x = (temp[0])[0];
+		y = (temp[0])[1];
+		z = (temp[0])[2];
+		//calculate valuse
+
+		double d = sqrt((pow(x, 2) + pow(y, 2) + pow(z, 2)));
+
+		//cout << "d/z = " << (d / z) / 100 << endl;
+		//double theta = acos((d / z));
+		double theta = acos((d / z) / 100.0);
+
+		double phi = atan2((y / x), (-y/x));
+
+
+
+
+		// new values
+		x1 = morphSphereRadius* sin(theta) * cos(phi);
+		y1 = morphSphereRadius* sin(theta) * sin(phi);
+		z1 = morphSphereRadius* cos(theta);
+
+		cout<<"new points at index: "<<i<<", X1: "<<x1<<", Y1:"<<y1<<", Z1: "<<z1<<endl;
+
+		FaceFront[i] = new Point(x1,y1,z1);
+	}
+
+	// face back
+	
+	
+
+
+	// face left
+	
+	// face right
+	
+	//face top
+	
+	// face bottom
+	
+}
+
+
 // Update graphics window.
 void display()
 {
@@ -325,6 +416,9 @@ void graphicKeys(unsigned char key, int x, int y)
 		dt /= 1.1;
 		break;
 	
+	case 'm':
+		morph();
+		break;
 
 	case 27:
 		exit(0);
@@ -342,6 +436,7 @@ int main(int argc, char **argv)
 		" ' ' (space)  restore initial conditions" << endl <<
 		" '+'          speed up" << endl <<
 		" '-'          slow down" << endl <<
+		" 'm'          morph cube" << endl <<
 		" ESC          quit" << endl;
 
 
