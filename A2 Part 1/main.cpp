@@ -328,7 +328,7 @@ void cubeToSphereMorph() {
 		for (int j = 0; j < FaceCube.size(); j++) {
 			
 			glDisable(GL_LIGHTING);
-			glPointSize(5.0f);
+			glPointSize(3.0f);
 
 			if (i < 2)
 				glColor3d(1, 0, 0);
@@ -341,10 +341,14 @@ void cubeToSphereMorph() {
 				glVertex3f(FaceCube[j][0], FaceCube[j][1], FaceCube[j][2]);
 			glEnd();
 
-			
-			FaceCube[j][0] += FaceInterpolant[j][0] * 0.005;
-			FaceCube[j][1] += FaceInterpolant[j][1] * 0.005;
-			FaceCube[j][2] += FaceInterpolant[j][2] * 0.005;
+			if(FaceCube[j][0] >= FaceSphere[j][0])
+				FaceCube[j][0] += FaceInterpolant[j][0] * 0.005;
+
+			if (FaceCube[j][1] >= FaceSphere[j][1])
+				FaceCube[j][1] += FaceInterpolant[j][1] * 0.005;
+
+			if (FaceCube[j][2] >= FaceSphere[j][2])
+				FaceCube[j][2] += FaceInterpolant[j][2] * 0.005;
 			
 		}
 	}

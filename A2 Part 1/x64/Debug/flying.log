@@ -9,16 +9,16 @@ C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp
 C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244:         [
 C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244:             _Ty=float
 C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244:         ]
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244: '+=': conversion from 'double' to '_Ty', possible loss of data
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:         with
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:         [
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:             _Ty=float
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:         ]
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244: '+=': conversion from 'double' to '_Ty', possible loss of data
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:         with
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:         [
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:             _Ty=float
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:         ]
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(369,18): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(496,29): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(348,51): warning C4244: '+=': conversion from 'double' to '_Ty', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(348,51): warning C4244:         with
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(348,51): warning C4244:         [
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(348,51): warning C4244:             _Ty=float
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(348,51): warning C4244:         ]
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(351,51): warning C4244: '+=': conversion from 'double' to '_Ty', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(351,51): warning C4244:         with
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(351,51): warning C4244:         [
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(351,51): warning C4244:             _Ty=float
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(351,51): warning C4244:         ]
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(373,18): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(500,29): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
   flying.vcxproj -> C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\x64\Debug\BouncingBall.exe
