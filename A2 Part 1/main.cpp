@@ -45,12 +45,11 @@ double dt;
 // so that it doesnt keep calling generatePoints()
 bool generated = false;
 bool generatedMorphed = false;
-bool morphed = false;
+bool morphing = false;
 bool vectorsInitialized = false;
 bool generatedInterpolation = false;
 
 float morphSphereRadius = 2;
-
 
 // Using generate points function, we get the info to draw the cube
 std::vector<std::vector<float>> FaceFront(25);
@@ -319,6 +318,7 @@ void generateInterpolation() {
 	generatedInterpolation = true;
 }
 
+//Morphing the cube into a sphere
 void cubeToSphereMorph() {
 	for (int i = 0; i < Cube.size(); i++) {
 		std::vector<std::vector<float>>& FaceCube = *Cube[i];
@@ -328,7 +328,7 @@ void cubeToSphereMorph() {
 		for (int j = 0; j < FaceCube.size(); j++) {
 			
 			glDisable(GL_LIGHTING);
-			glPointSize(3.0f);
+			glPointSize(5.0f);
 
 			if (i < 2)
 				glColor3d(1, 0, 0);
@@ -375,35 +375,37 @@ void display()
 		generateMorphedPoints();
 	if (!generatedInterpolation)
 		generateInterpolation();
+	if(morphing)
+		cubeToSphereMorph();
 
-	cubeToSphereMorph();
+	if (!morphing) {
+		//Draw Cube
+		glPushMatrix();
 
-	/*
-	//Draw Cube
-	glPushMatrix();
+		for (int i = 0; i < 6; i++) {
+			std::vector<std::vector<float>> Face = *Cube[i];
+			for (int j = 0; j < 25; j++) {
 
-	for (int i = 0; i < 6; i++) {
-		std::vector<std::vector<float>> Face = *Cube[i];
-		for (int j = 0; j < 25; j++) {
-			
-			glDisable(GL_LIGHTING);
-			glPointSize(5.0f);
+				glDisable(GL_LIGHTING);
+				glPointSize(5.0f);
 
-			if (i < 2) 
-				glColor3d(1, 0, 0);
-			else if (i < 4)
-				glColor3d(0, 1, 0);
-			else
-				glColor3d(0, 0, 1);
+				if (i < 2)
+					glColor3d(1, 0, 0);
+				else if (i < 4)
+					glColor3d(1, 1, 1);
+				else
+					glColor3d(0, 0, 1);
 
-			glBegin(GL_POINTS);
-			glVertex3f(Face[j][0], Face[j][1], Face[j][2]);
-			glEnd();
+				glBegin(GL_POINTS);
+				glVertex3f(Face[j][0], Face[j][1], Face[j][2]);
+				glEnd();
+			}
 		}
+
+		glPopMatrix();
 	}
 
-	glPopMatrix();
-
+	/*
 	//Draw Sphere
 	glPushMatrix();
 
@@ -467,7 +469,7 @@ void graphicKeys(unsigned char key, int x, int y)
 		break;
 
 	case 'm':
-		//morph();
+		morphing = true;
 		break;
 
 	case 27:
@@ -481,9 +483,6 @@ int main(int argc, char** argv)
 	cout <<
 		"Assignment 2: Part 1, Morphing" << endl <<
 		"Press these keys:" << endl <<
-		" ' ' (space)  restore initial conditions" << endl <<
-		" '+'          speed up" << endl <<
-		" '-'          slow down" << endl <<
 		" 'm'          morph cube" << endl <<
 		" ESC          quit" << endl;
 
