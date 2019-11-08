@@ -1,11 +1,24 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (flying.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (flying.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.cpp
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(38): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(269): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(215): warning C4101: 'z': unreferenced local variable
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(215): warning C4101: 'y': unreferenced local variable
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(215): warning C4101: 'x': unreferenced local variable
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(311): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(371): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-c:\users\asus\documents\school\fall-winter 2019-20\fall 2019\comp 477\assignments\a2\problem 1\a2 part 1\main.cpp(452): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-  flying.vcxproj -> C:\Users\ASUS\Documents\School\Fall-Winter 2019-20\Fall 2019\COMP 477\Assignments\A2\Problem 1\A2 Part 1\x64\Debug\BouncingBall.exe
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(39,42): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(288,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(289,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(290,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244: '+=': conversion from 'double' to '_Ty', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244:         with
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244:         [
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244:             _Ty=float
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(345,51): warning C4244:         ]
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244: '+=': conversion from 'double' to '_Ty', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:         with
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:         [
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:             _Ty=float
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(346,51): warning C4244:         ]
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244: '+=': conversion from 'double' to '_Ty', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:         with
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:         [
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:             _Ty=float
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(347,51): warning C4244:         ]
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(369,18): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\main.cpp(496,29): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  flying.vcxproj -> C:\Users\LyonelZ\Desktop\Question 1\comp477_assignment2_part1\A2 Part 1\x64\Debug\BouncingBall.exe

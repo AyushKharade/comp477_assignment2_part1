@@ -9,7 +9,8 @@ Ayush Kharade, ID: 40042388, group submission
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include<cmath>
+#include <cmath>
+#include <vector>
 #include <GL/glut.h>
 #include "cugl.h"
 
@@ -42,45 +43,106 @@ double dt;
 
 
 // so that it doesnt keep calling generatePoints()
-bool generated;
-bool morphed;
+bool generated = false;
+bool generatedMorphed = false;
+bool morphed = false;
+bool vectorsInitialized = false;
+bool generatedInterpolation = false;
 
-float morphSphereRadius=4;
-
-
-
-//
-
-// using generation function
-Point *FaceFront[25];
-Point *FaceBack[25];
-
-Point *FaceTop[25];
-Point *FaceBottom[25];
+float morphSphereRadius = 2;
 
 
-Point *FaceLeft[25];
-Point *FaceRight[25];
+// Using generate points function, we get the info to draw the cube
+std::vector<std::vector<float>> FaceFront(25);
+std::vector<std::vector<float>> FaceBack(25);
 
+std::vector<std::vector<float>> FaceTop(25);
+std::vector<std::vector<float>> FaceBottom(25);
+
+std::vector<std::vector<float>> FaceLeft(25);
+std::vector<std::vector<float>> FaceRight(25);
+
+// Using the the morphed points function, we get the info to draw the sphere from the cube
+std::vector<std::vector<float>> FaceFrontMorphed(25);
+std::vector<std::vector<float>> FaceBackMorphed(25);
+
+std::vector<std::vector<float>> FaceTopMorphed(25);
+std::vector<std::vector<float>> FaceBottomMorphed(25);
+
+std::vector<std::vector<float>> FaceLeftMorphed(25);
+std::vector<std::vector<float>> FaceRightMorphed(25);
+
+// Using linear interpolation we morph from cube to sphere
+std::vector<std::vector<float>> FaceFrontInterpolate(25);
+std::vector<std::vector<float>> FaceBackInterpolate(25);
+
+std::vector<std::vector<float>> FaceTopInterpolate(25);
+std::vector<std::vector<float>> FaceBottomInterpolate(25);
+
+std::vector<std::vector<float>> FaceLeftInterpolate(25);
+std::vector<std::vector<float>> FaceRightInterpolate(25);
+
+//Setting up vectors to hold all faces so it's easier to code
+std::vector<std::vector<std::vector<float>>*> Cube(6);
+std::vector<std::vector<std::vector<float>>*> Sphere(6);
+std::vector<std::vector<std::vector<float>>*> Interpolant(6);
 
 // Reset initial conditions.
 void initialize()
 {
-	
 	//dt = 0.02;
 }
 
+//Initialize Cube, Sphere and Interpolant Vectors
+void initializeVectors() {
+	for (int i = 0; i < 6; i++) {
+		switch (i) {
+			case 0:
+				Cube[i] = &FaceFront;
+				Sphere[i] = &FaceFrontMorphed;
+				Interpolant[i] = &FaceFrontInterpolate;
+				break;
+			case 1:
+				Cube[i] = &FaceBack;
+				Sphere[i] = &FaceBackMorphed;
+				Interpolant[i] = &FaceBackInterpolate;
+				break;
+			case 2:
+				Cube[i] = &FaceLeft;
+				Sphere[i] = &FaceLeftMorphed;
+				Interpolant[i] = &FaceLeftInterpolate;
+				break;
+			case 3:
+				Cube[i] = &FaceRight;
+				Sphere[i] = &FaceRightMorphed;
+				Interpolant[i] = &FaceRightInterpolate;
+				break;
+			case 4:
+				Cube[i] = &FaceBottom;
+				Sphere[i] = &FaceBottomMorphed;
+				Interpolant[i] = &FaceBottomInterpolate;
+				break;
+			case 5:
+				Cube[i] = &FaceTop;
+				Sphere[i] = &FaceTopMorphed;
+				Interpolant[i] = &FaceTopInterpolate;
+				break;
+		}
+	}
+
+	vectorsInitialized = true;
+	
+}
 
 // make a function that generates the points.
-
 void generatePoints(int distance)
 {
 	//distance is distance between the points.
 	//each face has 25 points
 	// z stays constant for each face, y changes every 5 lines, x changes every line
-	
+
 	// generate face 1: front (25 point objects)
-	
+
 
 // point generation values
 	float x = 0.0, y = 0.0;
@@ -89,7 +151,9 @@ void generatePoints(int distance)
 	{
 		for (int j = 1; j <= 5; j++)     // for every row of x
 		{
-			FaceFront[index] = new Point(x,y,4);
+			FaceFront[index].push_back(x);
+			FaceFront[index].push_back(y);
+			FaceFront[index].push_back(4);
 			x += 1;
 			//cout<<"Point index: "<<(index)<<" with values: ("<<x<<", "<<y<< ",0.5)"<<endl;
 			index++;
@@ -101,13 +165,15 @@ void generatePoints(int distance)
 
 
 	//generate face 2: back
-	x = 0.0, y = 0.0; 
+	x = 0.0, y = 0.0;
 	index = 0;
 	for (int i = 1; i <= 5; i++)         // for every row of y
 	{
 		for (int j = 1; j <= 5; j++)     // for every row of x
 		{
-			FaceBack[index] = new Point(x, y, 0);
+			FaceBack[index].push_back(x);
+			FaceBack[index].push_back(y);
+			FaceBack[index].push_back(0);
 			x += 1;
 			//cout<<"Point index: "<<(index)<<" with values: ("<<x<<", "<<y<< ",0.5)"<<endl;
 			index++;
@@ -124,7 +190,9 @@ void generatePoints(int distance)
 	{
 		for (int j = 1; j <= 5; j++)     // for every row of x
 		{
-			FaceRight[index] = new Point(0, y, x);
+			FaceRight[index].push_back(0);
+			FaceRight[index].push_back(y);
+			FaceRight[index].push_back(x);
 			x += 1;
 			//cout<<"Point index: "<<(index)<<" with values: ("<<x<<", "<<y<< ",0.5)"<<endl;
 			index++;
@@ -140,7 +208,9 @@ void generatePoints(int distance)
 	{
 		for (int j = 1; j <= 5; j++)     // for every row of x
 		{
-			FaceLeft[index] = new Point(4, y, x);
+			FaceLeft[index].push_back(4);
+			FaceLeft[index].push_back(y);
+			FaceLeft[index].push_back(x);
 			x += 1;
 			//cout<<"Point index: "<<(index)<<" with values: ("<<x<<", "<<y<< ",0.5)"<<endl;
 			index++;
@@ -149,20 +219,17 @@ void generatePoints(int distance)
 		x = 0.0;
 	}
 
-
-
-
-
-
 	//generate face 5: top
 	// y will be constant and x and z will vary
-	x = 0.0, y = 0.0; 
+	x = 0.0, y = 0.0;
 	index = 0;
 	for (int i = 1; i <= 5; i++)         // for every row of y
 	{
 		for (int j = 1; j <= 5; j++)     // for every row of x
 		{
-			FaceTop[index] = new Point(x, 4, y);
+			FaceTop[index].push_back(x);
+			FaceTop[index].push_back(4);
+			FaceTop[index].push_back(y);
 			x += 1;
 			//cout<<"Point index: "<<(index)<<" with values: ("<<x<<", "<<" 2.5"<< ","<<y<<")"<<endl;
 			index++;
@@ -178,7 +245,9 @@ void generatePoints(int distance)
 	{
 		for (int j = 1; j <= 5; j++)     // for every row of x
 		{
-			FaceBottom[index] = new Point(x, 0, y);
+			FaceBottom[index].push_back(x);
+			FaceBottom[index].push_back(0);
+			FaceBottom[index].push_back(y);
 			x += 1;
 			//cout << "Point index: " << (index) << " with values: (" << x << ", " << " -2.5" << "," << y << ")" << endl;
 			index++;
@@ -187,103 +256,99 @@ void generatePoints(int distance)
 		x = 0.0;
 	}
 
-
-
-
-
 	generated = true;
 }
 
+//Makes the sphere points from the cube points
+void generateMorphedPoints() {
+	// go through all 6 arrays, and compute new position.
 
-void morph()
-{
-	/*
-	if x,y,z is a point on the cube, then calculate
-	d = sqrt(x^2 + y^2 + z^2)
-
-	theta = arcos(z/d)
-	phi=arctan (y/x)
-
-	then x,y,z are morphed to their new positions:
-	x1= r * sin theta * cos 5
-	y1=r * sin theta * sin phi
-	z1= r * cos theta
+	for (int i = 0; i < Cube.size(); i++) {
+		std::vector<std::vector<float>> Face = *Cube[i];
+		std::vector<std::vector<float>>& FaceSphere = *Sphere[i];
+		for (int j = 0; j < Face.size(); j++) {
 	
-	*/
 
-	//calculate d, thetha & phi
-	float x, y, z;
-	
-	/*
-	Point *temp = FaceFront[14];
+			float x0, y0, z0;
+			float x1, y1, z1;
 
-	x = (temp[0])[0];
-	y = (temp[0])[1];
-	z = (temp[0])[2];
+			x0 = Face[j][0];
+			y0 = Face[j][1];
+			z0 = Face[j][2];
+		
+			double d = sqrt((pow(x0, 2) + pow(y0, 2) + pow(z0, 2)));
 
-	cout<<"reading points; X: "<<x<<", Y:"<<y<<", Z: "<<z<<endl;
+			//cout << "d/z = " << (d / z) / 100 << endl;
+			//double theta = acos((d / z));
+			double theta = acos(z0 / d) * 180/PI;
 
-	double d = sqrt((pow(x,2)+pow(y,2)+pow(z,2)));
-	cout<<"d/z = "<<(d/z)/100<<endl;
-	double theta = acos((d/z)/100.0);
-	
-	double phi = atan(y / x);
+			double phi = atan2(y0, x0) * 180/PI;
 
-	cout<<"Values calculated:"<<endl;
-	cout<<" d: "<<d<<endl;
-	cout<<" theta: "<<theta<<endl;
-	cout<<" phi: "<<phi<<endl;
-	*/
+			// new values
+			x1 = morphSphereRadius * sin(theta) * cos(phi);
+			y1 = morphSphereRadius * sin(theta) * sin(phi);
+			z1 = morphSphereRadius * cos(theta);
 
-	// go through all 6 arrays, and compute new position. overwrite positions
-	// face front
-	for (int i = 0; i < 25; i++)
-	{
-		// save temp copy, overwrite.
-		float x, y, z;
-		double x1, y1, z1;
-		Point *temp = FaceFront[i];
-		x = (temp[0])[0];
-		y = (temp[0])[1];
-		z = (temp[0])[2];
-		//calculate valuse
+			//cout << "new points at index: " << i << ", X1: " << x1 << ", Y1:" << y1 << ", Z1: " << z1 << endl;
 
-		double d = sqrt((pow(x, 2) + pow(y, 2) + pow(z, 2)));
-
-		//cout << "d/z = " << (d / z) / 100 << endl;
-		//double theta = acos((d / z));
-		double theta = acos((d / z) / 100.0);
-
-		double phi = atan2((y / x), (-y/x));
-
-
-
-
-		// new values
-		x1 = morphSphereRadius* sin(theta) * cos(phi);
-		y1 = morphSphereRadius* sin(theta) * sin(phi);
-		z1 = morphSphereRadius* cos(theta);
-
-		cout<<"new points at index: "<<i<<", X1: "<<x1<<", Y1:"<<y1<<", Z1: "<<z1<<endl;
-
-		FaceFront[i] = new Point(x1,y1,z1);
+			FaceSphere[j].push_back(x1);
+			FaceSphere[j].push_back(y1);
+			FaceSphere[j].push_back(z1);
+		}
 	}
 
-	// face back
-	
-	
-
-
-	// face left
-	
-	// face right
-	
-	//face top
-	
-	// face bottom
-	
+	generatedMorphed = true;
 }
 
+//Makes the linear interpolation from sphere and cube info
+void generateInterpolation() {
+	//Interpolation
+
+	for (int i = 0; i < Cube.size(); i++) {
+		std::vector<std::vector<float>> FaceCube = *Cube[i];
+		std::vector<std::vector<float>> FaceSphere = *Sphere[i];
+		std::vector<std::vector<float>>& FaceInterpolant = *Interpolant[i];
+
+		for (int j = 0; j < FaceCube.size(); j++) {
+			FaceInterpolant[j].push_back(FaceSphere[j][0] - FaceCube[j][0]);
+			FaceInterpolant[j].push_back(FaceSphere[j][1] - FaceCube[j][1]);
+			FaceInterpolant[j].push_back(FaceSphere[j][2] - FaceCube[j][2]);
+		}
+	}
+	
+	generatedInterpolation = true;
+}
+
+void cubeToSphereMorph() {
+	for (int i = 0; i < Cube.size(); i++) {
+		std::vector<std::vector<float>>& FaceCube = *Cube[i];
+		std::vector<std::vector<float>> FaceSphere = *Sphere[i];
+		std::vector<std::vector<float>> FaceInterpolant = *Interpolant[i];
+
+		for (int j = 0; j < FaceCube.size(); j++) {
+			
+			glDisable(GL_LIGHTING);
+			glPointSize(5.0f);
+
+			if (i < 2)
+				glColor3d(1, 0, 0);
+			else if (i < 4)
+				glColor3d(1, 1, 1);
+			else
+				glColor3d(0, 0, 1);
+
+			glBegin(GL_POINTS);
+				glVertex3f(FaceCube[j][0], FaceCube[j][1], FaceCube[j][2]);
+			glEnd();
+
+			
+			FaceCube[j][0] += FaceInterpolant[j][0] * 0.005;
+			FaceCube[j][1] += FaceInterpolant[j][1] * 0.005;
+			FaceCube[j][2] += FaceInterpolant[j][2] * 0.005;
+			
+		}
+	}
+}
 
 // Update graphics window.
 void display()
@@ -292,101 +357,82 @@ void display()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//gluLookAt(0, 5, -10, 0, 0, 10, 0, 1, 0);          // from (x,y,z), look at point (x,y,z), upvector (x,y,z)
-	gluLookAt(-5, 5, -15, 0, 0, 10, 0, 1, 0);          // from (x,y,z), look at point (x,y,z), upvector (x,y,z)
+	//gluLookAt(-5, 5, -15, 0, 0, 10, 0, 1, 0);          // from (x,y,z), look at point (x,y,z), upvector (x,y,z)
+	gluLookAt(-10, 5, -20,
+			  0, 0, 10,
+			  0, 1, 0);
 
 
-	glPushMatrix();
-	
-	
-
-	// front and back set of points in red
-	glDisable(GL_LIGHTING);
-	glColor3d(1, 0, 0);
-	glPointSize(5.0f);
-	glBegin(GL_POINTS);
-
-	
-
-	if(!generated)
+	if (!vectorsInitialized)
+		initializeVectors();
+	if (!generated)
 		generatePoints(0.2);
+	if (!generatedMorphed)
+		generateMorphedPoints();
+	if (!generatedInterpolation)
+		generateInterpolation();
 
-	for (int i = 0; i < 25; i++)
-	{
-		FaceFront[i]->draw();
-		FaceBack[i]->draw();
-		//cout<<FaceFront[i]<<endl;
+	cubeToSphereMorph();
+
+	/*
+	//Draw Cube
+	glPushMatrix();
+
+	for (int i = 0; i < 6; i++) {
+		std::vector<std::vector<float>> Face = *Cube[i];
+		for (int j = 0; j < 25; j++) {
+			
+			glDisable(GL_LIGHTING);
+			glPointSize(5.0f);
+
+			if (i < 2) 
+				glColor3d(1, 0, 0);
+			else if (i < 4)
+				glColor3d(0, 1, 0);
+			else
+				glColor3d(0, 0, 1);
+
+			glBegin(GL_POINTS);
+			glVertex3f(Face[j][0], Face[j][1], Face[j][2]);
+			glEnd();
+		}
 	}
 
-	glEnd();
-	
-	//left & right set of points in blue
-	glDisable(GL_LIGHTING);
-	glColor3d(0, 0, 1);
-	glPointSize(5.0f);
-	glBegin(GL_POINTS);
-
-	for (int i = 0; i < 25; i++)
-	{
-		FaceLeft[i]->draw();
-		FaceRight[i]->draw();
-	}
-	glEnd();
-
-
-
-
-
-
-	//top&bottom set of points in blue
-	glDisable(GL_LIGHTING);
-	glColor3d(0, 1, 0);
-	glPointSize(5.0f);
-	glBegin(GL_POINTS);
-
-	for (int i = 0; i < 25; i++)
-	{
-		FaceTop[i]->draw();
-		FaceBottom[i]->draw();
-	}
-	glEnd();
-
-	
 	glPopMatrix();
 
-	//
+	//Draw Sphere
+	glPushMatrix();
+
+	for (int i = 0; i < 6; i++) {
+		std::vector<std::vector<float>> Face = *Sphere[i];
+		for (int j = 0; j < 25; j++) {
+
+			glDisable(GL_LIGHTING);
+			glPointSize(5.0f);
+
+			if (i < 2)
+				glColor3d(1, 0, 0);
+			else if (i < 4)
+				glColor3d(0, 1, 0);
+			else
+				glColor3d(0, 0, 1);
+
+			glBegin(GL_POINTS);
+			glVertex3f(Face[j][0], Face[j][1], Face[j][2]);
+			glEnd();
+		}
+	}
+
+	glPopMatrix();
+	*/
+
 	glutSwapBuffers();
-}
-
-
-
-
-
-
-
-
-// Inverse inertia tensor for a cube
-//const GLfloat DIAG = 5.0 / 22.0;
-//const GLfloat OFFD = 3.0 / 22.0;
-
-const GLfloat DIAG = 1.0 / 6.0;
-const GLfloat OFFD = 0.0;
-Matrix mi(
-	DIAG, OFFD, OFFD, 0.0f,
-	OFFD, DIAG, OFFD, 0.0f,
-	OFFD, OFFD, DIAG, 0.0f,
-	0.0f, 0.0f, 0.0f, 1.0f);
-
-Matrix invmi = mi.inv();
-
-void report()
-{
-
 }
 
 // Background calculations.
 void idle()  // does math in background
 {
-	
+
 	glutPostRedisplay();
 }
 
@@ -415,9 +461,9 @@ void graphicKeys(unsigned char key, int x, int y)
 	case '-':
 		dt /= 1.1;
 		break;
-	
+
 	case 'm':
-		morph();
+		//morph();
 		break;
 
 	case 27:
@@ -425,9 +471,7 @@ void graphicKeys(unsigned char key, int x, int y)
 	}
 }
 
-
-
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	//display to console controls
 	cout <<
@@ -450,9 +494,9 @@ int main(int argc, char **argv)
 	glutKeyboardFunc(graphicKeys);                  // turn on/off gravity , kinematic, etc
 	glutIdleFunc(idle);                             // idle function for
 	glClearColor(0.6, 0.6, 1, 1);
-	
 
-	
+
+
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
@@ -461,6 +505,6 @@ int main(int argc, char **argv)
 	glLightfv(GL_LIGHT0, GL_POSITION, LIGHT_POSITION);
 	initialize();
 	glutMainLoop();
-	
+
 	return 0;
 }
